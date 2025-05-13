@@ -1,0 +1,250 @@
+/* Global styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    /* Improved text color for contrast */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header styles */
+header {
+    background: #003366;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Added shadow for depth */
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+header .logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+header .logo span {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active {
+    border-bottom: 2px solid#003366;
+}
+
+header .search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .search input {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    outline: none;
+}
+
+header .search input:focus {
+    border-color: #4caf50;
+    /* Highlight input on focus */
+}
+
+header .search button {
+    padding: 8px 16px;
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+header .search button:hover {
+    background-color:#003366;
+    /* Darker button on hover */
+}
+
+/* Main content styles */
+main {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+/* Sidebar styles */
+aside {
+    background: #f0f3f5;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    padding: 20px;
+    gap: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+aside button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+aside button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+aside button.details-btn {
+    background:#a6c8ea;
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+/* Students list styles */
+.students-list {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    flex: 1;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.students-list h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Individual student item styles */
+.student-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.student-item:hover {
+    transform: translateY(-5px);
+    /* Hover effect for better interaction */
+}
+
+.student-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.student-details {
+    display: none;
+    margin-top: 10px;
+}
+
+.student-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.student-photo {
+    width: 100px;
+    /* Adjust size as needed */
+    height: 100px;
+    float: left;
+    margin-right: 20px;
+    border-radius: 50%;
+    /* Optional: Rounded border for the photo */
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #066414;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Dropdown button styles */
+.dropdown-btn {
+    background-color: rgba(95, 158, 111, 0.2);
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn:hover {
+    background-color: rgba(95, 158, 111, 0.4);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    aside {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .students-list {
+        width: 100%;
+    }
+}

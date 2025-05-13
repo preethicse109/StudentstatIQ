@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Student Filter with Edit/Delete</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="studentfilter.css">
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="logo1.jpg" alt="Sri Shakthi College Logo">
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#">Departments</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">AGRI</a></li>
+                            <li><a href="#">AIDS</a></li>
+                            <li><a href="student.html">CSE</a></li>
+                            <li><a href="#">ECE</a></li>
+                            <li><a href="#">IT</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="login1.html">Student DB</a></li>
+                    <li><a href="#">Resume Matcher</a></li>
+                </ul>
+            </nav>
+            <a href="upload.html" class="btn-upload">Upload</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Filter Students</h1>
+
+        <div class="filter-container">
+            <!-- Filter for CGPA -->
+            <div class="filter-box">
+                <label for="cgpa">Select CGPA:</label>
+                <select id="cgpa" onchange="filterStudents()">
+                    <option value="all">All</option>
+                    <option value=">=9">>=9</option>
+                    <option value="8-9">8 - 9</option>
+                    <option value="7-8">7 - 8</option>
+                    <option value="<7">
+                        <7< /option>
+                </select>
+            </div>
+
+            <!-- Filter for Level -->
+            <div class="filter-box">
+                <label for="level">Select Level:</label>
+                <select id="level" onchange="filterStudents()">
+                    <option value="all">All</option>
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                    <option value="6">Level 6</option>
+                    <option value="7">Level 7</option>
+                    <option value="8">Level 8</option>
+                </select>
+            </div>
+
+            <!-- Filter for Domain -->
+            <div class="filter-box">
+                <label for="domain">Select Domain:</label>
+                <select id="domain" onchange="filterStudents()">
+                    <option value="all">All</option>
+                    <option value="Java">Java</option>
+                    <option value="Python">Python</option>
+                    <option value="Full Stack Development">Full Stack Development</option>
+                    <option value="Data Analytics">Data Analytics</option>
+                    <option value="Machine Learning">Machine Learning</option>
+                    <option value="Artificial Intelligence">Artificial Intelligence</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Download Button -->
+        <button id="download-btn" onclick="downloadCSV()">Download Filtered List</button>
+
+        <!-- DataTable for displaying students -->
+        <table id="student-table" class="display">
+            <thead>
+                <tr>
+                    <th>Name of the students</th>
+                    <th>CGPA</th>
+                    <th>Level</th>
+                    <th>Language</th>
+                    <th>Domain</th>
+                    <th>Standing Arrears</th>
+                    <th>History of Arrears</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody">
+                <!-- Table rows will be populated dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        function loadStudents() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+
+            const tableBody = document.getElementById('studentTableBody');
+            tableBody.innerHTML = '';  // Clear existing rows
+
+            students.forEach((student, index) => {
+                const row = document.createElement('tr');
+                row.setAttribute('data-index', index);
+                row.setAttribute('data-cgpa', student.cgpa);
+                row.setAttribute('data-level', student.level);
+                row.setAttribute('data-domain', student.domain);
+
+                row.innerHTML = `
+                <td>${student.name}</td>
+                <td>${student.cgpa}</td>
+                <td>${student.level}</td>
+                <td>${student.language}</td>
+                <td>${student.domain}</td>
+                <td>${student.standingArrears}</td>
+                <td>${student.historyArrears}</td>
+                <td>
+                    <button onclick="editStudent(${index})">Edit</button>
+                    <button onclick="deleteStudent(${index})">Delete</button>
+                </td>
+            `;
+
+                tableBody.appendChild(row);
+            });
+
+            $('#student-table').DataTable();
+        }
+
+        function editStudent(index) {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const student = students[index];
+
+            // Prompt user to edit student details
+            const newName = prompt("Enter new name", student.name);
+            const newCGPA = prompt("Enter new CGPA", student.cgpa);
+            const newLevel = prompt("Enter new Level", student.level);
+            const newLanguage = prompt("Enter new Language", student.language);
+            const newDomain = prompt("Enter new Domain", student.domain);
+            const newStandingArrears = prompt("Enter Standing Arrears", student.standingArrears);
+            const newHistoryOfArrears = prompt("Enter History of Arrears", student.historyArrears);
+
+            // Update the student record
+            students[index] = {
+                name: newName,
+                cgpa: newCGPA,
+                level: newLevel,
+                language: newLanguage,
+                domain: newDomain,
+                standingArrears: newStandingArrears,
+                historyArrears: newHistoryOfArrears
+            };
+
+            // Save updated students to localStorage
+            localStorage.setItem('students', JSON.stringify(students));
+            loadStudents();  // Reload the student list
+        }
+
+        function deleteStudent(index) {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+
+            // Remove the student at the given index
+            students.splice(index, 1);
+
+            // Save updated students to localStorage
+            localStorage.setItem('students', JSON.stringify(students));
+            loadStudents();  // Reload the student list
+        }
+
+        function filterStudents() {
+            const cgpaFilter = document.getElementById("cgpa").value;
+            const levelFilter = document.getElementById("level").value;
+            const domainFilter = document.getElementById("domain").value;
+
+            const rows = document.querySelectorAll("#student-table tbody tr");
+
+            rows.forEach(row => {
+                const rowCgpa = parseFloat(row.getAttribute("data-cgpa"));
+                const rowLevel = row.getAttribute("data-level");
+                const rowDomain = row.getAttribute("data-domain");
+
+                let cgpaMatch = false;
+                if (cgpaFilter === "all") {
+                    cgpaMatch = true;
+                } else if (cgpaFilter === ">=9" && rowCgpa >= 9) {
+                    cgpaMatch = true;
+                } else if (cgpaFilter === "8-9" && rowCgpa >= 8 && rowCgpa < 9) {
+                    cgpaMatch = true;
+                } else if (cgpaFilter === "7-8" && rowCgpa >= 7 && rowCgpa < 8) {
+                    cgpaMatch = true;
+                } else if (cgpaFilter === "<7" && rowCgpa < 7) {
+                    cgpaMatch = true;
+                }
+
+                let levelMatch = levelFilter === "all" || rowLevel === levelFilter;
+                let domainMatch = domainFilter === "all" || rowDomain === domainFilter;
+
+                if (cgpaMatch && levelMatch && domainMatch) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        function downloadCSV() {
+            const rows = document.querySelectorAll("#student-table tbody tr");
+            let csvContent = "data:text/csv;charset=utf-8,Name,CGPA,Level,Language,Domain,Standing Arrears,History of Arrears\n"; // Add the correct headers
+
+            rows.forEach(row => {
+                if (row.style.display !== "none") { // Only include visible rows (filtered)
+                    const rowData = Array.from(row.querySelectorAll("td:not(:last-child)")) // Exclude the last "Actions" column
+                        .map(td => td.textContent.trim()) // Trim whitespace
+                        .join(","); // Join with commas for CSV format
+                    csvContent += rowData + "\n"; // Add new line for each row
+                }
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "filtered_students.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Load students when the page loads
+        window.onload = loadStudents;
+    </script>
+
+</body>
+
+</html>
